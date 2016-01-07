@@ -32,6 +32,9 @@ function start($telegram,$update)
 	$today = date("Y-m-d H:i:s");
 
 	if ($text == "/start" || $text == "Informazioni") {
+		$img = curl_file_create('logo.png','image/png');
+		$contentp = array('chat_id' => $chat_id, 'photo' => $img);
+		$telegram->sendPhoto($contentp);
 		$reply = "Benvenuto. Questo è un servizio automatico (bot da Robot) di ".NAME.". Puoi ricercare gli argomenti per parola chiave anteponendo il carattere ?, oppure cliccare su FAQ per avere l'elenco delle FAQ predefinite e quindi fare una ricerca per numero domanda corrispondente. In qualsiasi momento scrivendo /start ti ripeterò questo messaggio di benvenuto.\nQuesto bot è stato realizzato da @piersoft insieme a ".NAME.". Il progetto e il codice sorgente sono liberamente riutilizzabili con licenza MIT.";
 		$content = array('chat_id' => $chat_id, 'text' => $reply,'disable_web_page_preview'=>true);
 		$telegram->sendMessage($content);
@@ -49,7 +52,7 @@ function start($telegram,$update)
 exit;
 			}*/
 			elseif ($text == "Ricerca") {
-				$reply = "Scrivi la parola da cercare anteponendo il carattere ?, ad esempio: ?Ferie";
+				$reply = "Scrivi la parola da cercare anteponendo il carattere ?, ad esempio: ?LibreItalia";
 				$content = array('chat_id' => $chat_id, 'text' => $reply,'disable_web_page_preview'=>true);
 				$telegram->sendMessage($content);
 				$log=$today. ";new chat started;" .$chat_id. "\n";
@@ -66,9 +69,7 @@ exit;
 //elseif($text !=null)
 
 		elseif(strpos($text,'/') === false){
-			$img = curl_file_create('logo.png','image/png');
-			$contentp = array('chat_id' => $chat_id, 'photo' => $img);
-			$telegram->sendPhoto($contentp);
+
 			if(strpos($text,'?') !== false){
 				$text=str_replace("?","",$text);
 				$location="Sto cercando argomenti con parola chiave: ".$text;
